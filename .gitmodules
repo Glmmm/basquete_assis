@@ -3,4 +3,4 @@
 	url = https://github.com/Glmmm/basquete_server.git
 [submodule "client"]
 	path = client
-	url = https://github.com/Glmmm/basquete_client.git
+	url = https://github.com/anm3ssa/basquete_client.git
