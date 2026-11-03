@@ -1,0 +1,34 @@
+name: Check and Update Submodules
+
+on:
+  schedule:
+    # Roda todos os dias à meia-noite (UTC). 
+    # Você pode alterar a sintaxe cron (ex: '0 */6 * * *' para rodar a cada 6 horas)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Permite rodar o workflow manualmente pelo botão no GitHub
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout parent repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main # Altere para master se for o nome da sua branch principal
+
+      - name: Update submodules to latest remote commits
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Atualiza todos os submódulos para a versão mais recente da branch remota
+          git submodule update --remote --recursive
+
+      - name: Commit and push changes if updated
+        run: |
+          git diff --quiet || (
+            git commit -am "chore: atualiza ponteiros dos submódulos [skip ci]"
+            git push
+          )
