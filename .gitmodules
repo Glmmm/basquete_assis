@@ -4,3 +4,4 @@
 [submodule "client"]
 	path = client
 	url = https://github.com/anm3ssa/basquete_client.git
+	branch = master
